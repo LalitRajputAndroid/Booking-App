@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1054723634148",
+    "project_id": "make-mytrip",
+    "storage_bucket": "make-mytrip.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1054723634148:android:73076f5b36c14587b84df1",
+        "android_client_info": {
+          "package_name": "com.example.makemytrip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1054723634148-2p23k91qomffllisoc4nit1ruflt112n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlJ2dr_kLPLtADK99vqjTZvhwj4zZ5sFQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1054723634148-2p23k91qomffllisoc4nit1ruflt112n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
