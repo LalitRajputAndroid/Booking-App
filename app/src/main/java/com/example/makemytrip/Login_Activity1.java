@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +26,7 @@ public class Login_Activity1 extends AppCompatActivity {
 
     TextInputEditText email, password;
     MaterialButton loginbtn;
-    MaterialTextView     signintext;
+    MaterialTextView signintext;
 
     private FirebaseAuth auth;
 
@@ -46,7 +47,7 @@ public class Login_Activity1 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                checkemailpass();
+                checkemailpass(); 
             }
         });
 
@@ -76,6 +77,11 @@ public class Login_Activity1 extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
+
+                        SharedPreferences preferences = getSharedPreferences("data", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putBoolean("open", true);
+                        editor.apply();
 
                         Toast.makeText(Login_Activity1.this, "Login Success", Toast.LENGTH_SHORT).show();
 

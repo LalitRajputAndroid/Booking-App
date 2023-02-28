@@ -1,12 +1,9 @@
 package com.example.makemytrip;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Signin_Activity2 extends AppCompatActivity {
 
-    TextInputEditText email, password, confirm_password;
+    TextInputEditText email, password, confirm_password, username;
     MaterialButton registerbtn;
     MaterialTextView logintext;
 
@@ -41,6 +38,7 @@ public class Signin_Activity2 extends AppCompatActivity {
         confirm_password = findViewById(R.id.Confirm_password_id);
         registerbtn = findViewById(R.id.register_btn_id);
         logintext = findViewById(R.id.logintext_id);
+        username = findViewById(R.id.username_id);
 
         auth = FirebaseAuth.getInstance();
         reference = FirebaseDatabase.getInstance().getReference();
@@ -64,54 +62,57 @@ public class Signin_Activity2 extends AppCompatActivity {
 
         String Email = email.getText().toString();
         String Pass = password.getText().toString();
+        String U_name = username.getText().toString();
 
         String c_pass = confirm_password.getText().toString();
 
-        if (Email.isEmpty() || Pass.isEmpty() || c_pass.isEmpty()) {
+        if (Email.isEmpty() || Pass.isEmpty() || c_pass.isEmpty() || U_name.isEmpty()) {
 
             email.setError("");
             password.setError("");
             confirm_password.setError("");
+            username.setError("");
+
             Toast.makeText(this, "Fill the fild", Toast.LENGTH_SHORT).show();
 
         } else if (!Pass.equals(c_pass)) {
 
             confirm_password.setError("Confirm Password not match");
-        }
-        else {
+        } else {
 
-            auth.createUserWithEmailAndPassword(Email,Pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            auth.createUserWithEmailAndPassword(Email, Pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
 
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
+
+                        String id = task.getResult().getUser().getUid();
 
                         // Modal class obj
-                        Modal modal = new Modal(Email,Pass);
-                        
-                        String id = task.getResult().getUser().getUid();
+                        Modal modal = new Modal(Email, Pass, id, U_name);
+
                         reference.child("Users").child(id).setValue(modal);
 
                         //  SharedPreferences
 
-                        SharedPreferences preferences = getSharedPreferences("data",MODE_PRIVATE);
+                        SharedPreferences preferences = getSharedPreferences("data", MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferences.edit();
-                        editor.putBoolean("open",true);
+                        editor.putBoolean("open", true);
                         editor.apply();
 
                         Toast.makeText(Signin_Activity2.this, "Succesfully Registration", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(Signin_Activity2.this,MainActivity.class);
+                        Intent intent = new Intent(Signin_Activity2.this, MainActivity.class);
                         startActivity(intent);
 
                         email.setText("");
                         password.setText("");
                         confirm_password.setText("");
                         finish();
-                        
-                    }else {
 
-                        Toast.makeText(Signin_Activity2.this, "Error"+task.getException(), Toast.LENGTH_SHORT).show();
+                    } else {
+
+                        Toast.makeText(Signin_Activity2.this, "Error" + task.getException(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });

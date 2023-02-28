@@ -15,4 +15,9 @@
         android:icon="@drawable/advance_booking"
         android:title="Advance Booking" />
 
+      <item
+        android:id="@+id/logout_id"
+        android:icon="@drawable/logout"
+        android:title="Log out" />
+
 </menu>

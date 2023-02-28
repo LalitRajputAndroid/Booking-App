@@ -8,26 +8,28 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MenuItem;
 
 import com.example.makemytrip.Fragments.Advance_booking;
 import com.example.makemytrip.Fragments.Home;
-import com.example.makemytrip.Fragments.View_booking;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+            auth=FirebaseAuth.getInstance();
         drawerLayout = findViewById(R.id.drawerlayout_id);
         navigationView = findViewById(R.id.navigationview_id);
         toolbar = findViewById(R.id.toobar_id);
@@ -53,11 +55,20 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.view_booking_id:
-                        fragment = new View_booking();
+                        startActivity(new Intent(MainActivity.this,Trip_details.class));
                         break;
 
                     case R.id.advance_booking_id:
                         fragment = new Advance_booking();
+                        break;
+                    case R.id.logout_id:
+                        startActivity(new Intent(MainActivity.this,Login_Activity1.class));
+
+                        SharedPreferences preferences = getSharedPreferences("data",MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putBoolean("open",false);
+                        editor.apply();
+                        auth.signOut();
                         break;
                 }
 
